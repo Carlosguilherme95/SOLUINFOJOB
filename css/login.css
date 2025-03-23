@@ -1,0 +1,59 @@
+/* Resetando alguns estilos básicos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilizando o body */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #533f3f !important; /* Usando !important para garantir a aplicação */
+  width: 100%;
+}
+
+/* Container que envolve o formulário */
+.container {
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 30% !important; /* Ajuste a largura do formulário */
+  background-color: #4caf50;
+}
+
+/* Estilizando os campos de input */
+input.form-control {
+  width: 100%; /* Reduzindo a largura dos campos de input */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  display: block;
+  margin: 10px auto; /* Centraliza os campos no container */
+  text-align: left;
+  line-height: 1.5;
+}
+
+input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+/* Estilizando o texto de ajuda */
+.form-text {
+  font-size: 12px;
+  color: #10314e;
+  margin-top: 5px;
+}
+.btn.btn-primary {
+  background-color: #283328; /* Cor verde personalizada */
+  border-color: #253a26; /* Cor da borda personalizada */
+}
+.btn.btn-primary:hover {
+  background-color: #7c867c; /* Cor verde personalizada */
+  border-color: #253a26; /* Cor da borda personalizada */
+}
