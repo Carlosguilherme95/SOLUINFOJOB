@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import { createDatabaseConnection } from "../dbconnectService";
 import { Atendimentos } from "../Entity/atendimentos";
 import { User } from "../Entity/user";
+
 export class AtendimentoService {
   constructor(
     private atendimentoRepository: Repository<Atendimentos>,
@@ -10,19 +11,15 @@ export class AtendimentoService {
     this.atendimentoRepository = atendimentoRepository;
     this.userRepository = userRepository;
   }
-
-  async atendimentosPost(posto: string, atendimento: string, userId: number) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+  async atendimentoPost(posto: string, atendimento: string, userId: number) {
     const newAtendimento = new Atendimentos();
     newAtendimento.posto = posto;
     newAtendimento.conteudo_atendimento = atendimento;
     newAtendimento.userId = userId;
-    const atendimentoAdicionado = await this.atendimentoRepository.save(
-      newAtendimento
-    );
-    return `atendimento registrado com sucesso ${atendimentoAdicionado}`;
+    this.atendimentoRepository.save(newAtendimento);
   }
 }
+
 export async function serviceAtendimentoDBconect(): Promise<AtendimentoService> {
   const { atendimentoRepository, userRepository } =
     await createDatabaseConnection();

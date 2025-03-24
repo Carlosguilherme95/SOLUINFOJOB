@@ -15,7 +15,7 @@ export class Atendimentos {
   @Column()
   posto!: string;
 
-  @Column()
+  @Column({ nullable: false })
   conteudo_atendimento!: string;
 
   @CreateDateColumn()

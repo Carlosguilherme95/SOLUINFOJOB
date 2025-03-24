@@ -2,6 +2,9 @@ import { User } from "../Entity/user";
 import { Repository } from "typeorm";
 import { createDatabaseConnection } from "../dbconnectService";
 import * as bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+export const SECRET: string = process.env.JWT_SECRET || "JWT";
 
 export class UserService {
   constructor(private userRepository: Repository<User>) {
@@ -56,7 +59,16 @@ export class UserService {
     if (!passwordCheck) {
       throw new Error("password inválido");
     }
-    return { userId: loginFind.id };
+
+    const token = jwt.sign(
+      {
+        userId: loginFind.id,
+        user: loginFind.user,
+      },
+      SECRET,
+      { expiresIn: "1h" }
+    );
+    return { userId: loginFind.id, token: token };
   }
 }
 export async function serviceUserDBconect(): Promise<UserService> {

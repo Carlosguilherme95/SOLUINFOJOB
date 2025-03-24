@@ -65,8 +65,15 @@ export class UserController {
     const { user, password } = req.body;
     try {
       const userRepository = await serviceUserDBconect();
-      const userRepo = await userRepository.loginValidated(user, password);
-      res.status(200).json({ message: "Login bem-sucedido", userId: user.id });
+
+      const { userId, token } = await userRepository.loginValidated(
+        user,
+        password
+      );
+      console.log("Login bem-sucedido:", { userId, token }); // Log de sucesso
+      res
+        .status(200)
+        .json({ message: "Login bem-sucedido", token: token, userId: userId });
     } catch (Error) {
       console.error("erro", Error);
 
