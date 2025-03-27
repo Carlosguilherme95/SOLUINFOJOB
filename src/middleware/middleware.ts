@@ -7,24 +7,23 @@ export async function verifyJwt(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const token = req.headers["x-access-token"];
+  const token = req.headers["authorization"]?.split(" ")[1] as string;
 
-  if (!token || Array.isArray(token)) {
-    res.status(404).json({ error: "Token não fornecido ou inválido" });
-    return;
+  if (!token) {
+    res.status(401).json({ error: "Token não fornecido ou inválido" });
   }
 
   try {
-    if (typeof token === "string") {
-      const decoded = jwt.verify(token, SECRET);
-      (req as any).user = decoded;
-      return next();
-    } else {
+    if (typeof token !== "string") {
       res.status(400).json({ error: "Token inválido" });
-      return;
     }
+
+    const decoded = jwt.verify(token, SECRET);
+
+    (req as any).user = decoded;
+
+    return next();
   } catch (error) {
-    res.status(401).json({ error: "Token inválido" });
-    return;
+    res.status(401).json({ error: "Token inválido ou expirado" });
   }
 }

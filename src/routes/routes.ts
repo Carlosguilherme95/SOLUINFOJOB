@@ -1,7 +1,10 @@
+import { verifyJwt } from "../middleware/middleware";
 import { UserController } from "../controllers/userController";
 import express from "express";
+import { AtendimentoController } from "../controllers/atendimentosController";
 
 const userController = new UserController();
+const atendimentoController = new AtendimentoController();
 const router = express.Router();
 router.post("/usercreate", userController.PostUser);
 router.get("/usercreate", userController.getAllUsers);
@@ -10,4 +13,6 @@ router.put("/usercreate/:id", userController.putUser);
 router.delete("/usercreate/:id", userController.deleteUser);
 router.post("/login", userController.userLogin);
 
+router.post("/atendimentos", verifyJwt, atendimentoController.atendimentoPost);
+router.get("/atendimentos", atendimentoController.atendimentoGetall);
 export default router;
