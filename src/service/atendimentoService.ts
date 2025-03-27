@@ -20,6 +20,38 @@ export class AtendimentoService {
     newAtendimento.userId = userId;
     this.atendimentoRepository.save(newAtendimento);
   }
+  async deleteAtendimento(id_atendimento: number) {
+    const atendimentoRepo = await this.atendimentoRepository.findOne({
+      where: {
+        id_atendimento: id_atendimento,
+      },
+    });
+    console.log(atendimentoRepo);
+    if (!atendimentoRepo) {
+      throw new Error("o atendimento não foi encontrado");
+    }
+    await this.atendimentoRepository.delete(id_atendimento);
+    return;
+  }
+  async putAtendimento(
+    id_atendimento: number,
+    data_atendimento: { posto: string; conteudo_atendimento: string }
+  ) {
+    const atendimentoRepo = await this.atendimentoRepository.findOne({
+      where: {
+        id_atendimento: id_atendimento,
+      },
+    });
+    if (atendimentoRepo) {
+      atendimentoRepo.posto = data_atendimento.posto;
+      atendimentoRepo.conteudo_atendimento =
+        data_atendimento.conteudo_atendimento;
+      await this.atendimentoRepository.save(atendimentoRepo);
+    } else {
+      throw new Error("não foi possível modificar o atendimento");
+    }
+    return console.log("atendimento modificado com sucesso");
+  }
   async atendimentoCount() {
     return this.atendimentoRepository
       .createQueryBuilder("atendimento")

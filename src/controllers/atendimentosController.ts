@@ -31,4 +31,33 @@ export class AtendimentoController {
       res.status(404).send("não encontramos atendimentos");
     }
   }
+  async atendimentoDelete(req: Request, res: Response) {
+    const { id_atendimento } = req.params;
+    const idAtendimentoNum = parseInt(id_atendimento);
+    console.log(idAtendimentoNum);
+    try {
+      const atendimentoRepository = await serviceAtendimentoDBconect();
+      const atendimentoRepo = await atendimentoRepository.deleteAtendimento(
+        idAtendimentoNum
+      );
+      res.status(200).send("atendimento deletado com sucesso");
+    } catch (e) {
+      res.status(404).send("não foi possível deletar o usuário");
+    }
+  }
+  async atendimentoPut(req: Request, res: Response) {
+    const { id_atendimento } = req.params;
+    const idNumber = parseInt(id_atendimento);
+    const { posto, conteudo_atendimento } = req.body;
+    try {
+      const atendimentoRepository = await serviceAtendimentoDBconect();
+      const atendimentoRepo = await atendimentoRepository.putAtendimento(
+        idNumber,
+        { posto, conteudo_atendimento }
+      );
+      res.status(200).send("atendimento modificado com sucesso");
+    } catch (e) {
+      res.status(404).send("não foi possível modificar o atendimento");
+    }
+  }
 }

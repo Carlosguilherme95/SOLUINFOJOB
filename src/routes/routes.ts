@@ -15,4 +15,12 @@ router.post("/login", userController.userLogin);
 
 router.post("/atendimentos", verifyJwt, atendimentoController.atendimentoPost);
 router.get("/atendimentos", atendimentoController.atendimentoGetall);
+router.delete(
+  "/atendimentos/:id_atendimento",
+  atendimentoController.atendimentoDelete
+);
+router.put(
+  "/atendimentos/:id_atendimento",
+  atendimentoController.atendimentoPut
+);
 export default router;
